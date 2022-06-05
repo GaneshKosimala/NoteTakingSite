@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0%;
+            padding: 0%;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: cornsilk;
+        }
+
+        .container {
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 6px;
+            width: 563px;
+            position: relative;
+            right: -301px;
+            background-color: #adf5eb;
+        }
+
+        .main {
+            width: 90%;
+            border-radius: 12px;
+            height: 128px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            background-color: blanchedalmond;
+            caret-color: blue;
+        }
+
+        .main:hover {
+            cursor: pointer;
+            box-shadow: 10px 7px 10px 8px gray;
+        }
+
+        #para {
+            padding-top: 12px;
+            font-weight: bold;
+            margin-left: 12px;
+        }
+
+        #btn {
+            position: relative;
+            left: 3%;
+            margin: 12px;
+            padding: 7px 20px;
+            font-weight: bold;
+            color: white;
+            background-color: rgb(36 23 239);
+            border-radius: 6px;
+        }
+
+        #btn:hover {
+            cursor: pointer;
+            box-shadow: 4px 5px 5px gray;
+        }
+
+        .newone {
+            width: 24%;
+            height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            background-color: white;
+            box-sizing: border-box;
+            text-align: left;
+            border-radius: 10px;
+        }
+
+        .newbutton {
+            margin: 12px;
+            padding: 7px 20px;
+            font-weight: bold;
+            color: white;
+            background-color: rgb(36 23 239);
+            border-radius: 6px;
+            position: relative;
+            top: 20px;
+        }
+
+        .newbutton:hover {
+            cursor: pointer;
+            background-color: rgb(8, 8, 238);
+            box-shadow: 2px 2px 3px gray;
+        }
+
+        .header {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+        }
+
+        #searchbar {
+            padding: 8px 4px;
+            display: inline;
+            border-radius: 8px;
+        }
+
+        #searchbtn {
+            margin: 9px;
+            padding: 7px 10px;
+            font-weight: bold;
+            color: white;
+            background-color: rgb(41, 41, 182);
+            border-radius: 6px;
+        }
+
+        input:hover {
+            box-shadow: 3px 3px 3px gray;
+            background-color: blanchedalmond;
+        }
+
+        #searchbtn:hover {
+            cursor: pointer;
+            background-color: rgb(8, 8, 238);
+            box-shadow: 2px 2px 3px gray;
+        }
+
+        .heading {
+            position: relative;
+            font-weight: bold;
+            font-size: 28px;
+            top: -4px;
+            left: 26px;
+            
+        }
+        [contenteditable]:focus{
+            outline: 0px solid transparent;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <input type="text" id="searchbar" placeholder="Search to get the result"></input>
+        <button id="searchbtn">Go</button>
+    </div>
+    <div class="container">
+        
+        <p class="heading">My Notes</p>
+        <hr>
+    
+        <div class="main" contenteditable="true">
+            <p id="para">Type your Note</p>
+        </div>
+        <button id="btn">Add a Note</button>
+    </div>
+    <script>
+        var button = document.getElementById('btn');
+        var textarray = [];
+        var count = 0;
+        var paraelement = document.getElementById('para');
+        paraelement.addEventListener('click', function () {
+            paraelement.textContent = '';
+        })
+        button.addEventListener('click', function () {
+            var newone = document.createElement('div');
+            document.body.appendChild(newone);
+            newone.className = 'newone';
+            newone.id = `div${count}`;
+            count += 1;
+            var paraele = document.getElementById('para');
+            var newparaele = document.createElement('p');
+            newparaele.id = 'newparaele';
+            newparaele.style.cssText = "margin:0px; padding:3px 4px;word-wrap:wrap"
+            newparaele.textContent = paraele.innerText;
+            newone.appendChild(newparaele);
+            textarray.push(paraele.innerText.toLowerCase());
+            console.log(textarray);
+            paraele.innerText = "Type your Note";
+            var buttonele = document.createElement('button');
+            buttonele.style.cssText = "display:block; margin-top:3px;"
+            buttonele.className = 'newbutton';
+            buttonele.textContent = 'Delete Node';
+            newone.appendChild(buttonele);
+            newone.style.cssText = "border:1px solid black;padding:9px 6px";
+            buttonele.addEventListener('click', function () {
+                newone.style.cssText = "display:none";
+            })
+            var strlen = paraele.innerText;
+            console.log(strlen.length);
+            if (strlen.length > 50) {
+                newone.style.height = "150px";
+            }
+            if (strlen.length > 120) {
+                newone.style.height = "200px";
+            } if (strlen.length > 200) {
+                newone.style.height = "230px";
+            }
+        })
+        var content = '';
+        var gobtn = document.getElementById('searchbtn');
+        gobtn.addEventListener('click', function () {
+            content = document.querySelector('#searchbar').value;
+            console.log(content);
+            document.getElementById('searchbar').value = '';
+            for (index = 0; index < textarray.length; index++) {
+                if (textarray[index].includes(content)) {
+                    console.log(textarray[index]);
+                    var item = document.getElementById(`div${index}`);
+                    var first = document.getElementById('div0');
+                    item.style.cssText = 'box-shadow: 5px 5px 5px gray;background-color: rgb(86, 201, 247);padding:6px 4px'
+                    document.body.insertBefore(item, first);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
